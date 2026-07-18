@@ -19,7 +19,9 @@ def score_name(name: str, profile: str = "warm") -> NameCandidate:
 
     pronunciation = 100 - abs(length - 6) * 8
     pronunciation -= (
-        12 if any(a == b for a, b in zip(lowered, lowered[1:], strict=False)) else 0
+        12
+        if any(a == b for a, b in zip(lowered, lowered[1:], strict=False))
+        else 0
     )
 
     memorability = 92 - abs(length - 5) * 7
