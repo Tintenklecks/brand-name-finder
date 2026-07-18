@@ -51,7 +51,7 @@ jobs:
           TOP: ${{ inputs.top || '100' }}
           SEED: ${{ inputs.seed || '42' }}
         run: >-
-          uv run brand-name-finder generate
+          uv run brand-name-finder
           --count "$COUNT"
           --top "$TOP"
           --seed "$SEED"
