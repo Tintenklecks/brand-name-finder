@@ -18,8 +18,8 @@ class NameCandidate:
         weighted = (
             self.pronunciation * 0.25
             + self.memorability * 0.20
-            + self.warmth * 0.20
+            + self.warmth * 0.15
             + self.distinctiveness * 0.20
-            + self.spelling_clarity * 0.15
+            + self.spelling_clarity * 0.20
         )
         return round(weighted, 2)
