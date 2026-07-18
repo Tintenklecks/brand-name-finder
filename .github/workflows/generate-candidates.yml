@@ -1,0 +1,58 @@
+name: Generate candidates
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: Number of names to generate
+        required: true
+        default: "5000"
+      top:
+        description: Number of top candidates to export
+        required: true
+        default: "100"
+      seed:
+        description: Random seed for reproducible results
+        required: true
+        default: "42"
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    name: Generate ranked names
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.13
+
+      - name: Install project
+        run: uv sync --all-extras
+
+      - name: Generate candidates
+        run: >-
+          uv run brand-name-finder generate
+          --count ${{ inputs.count }}
+          --top ${{ inputs.top }}
+          --seed ${{ inputs.seed }}
+          --output results/candidates.csv
+
+      - name: Show preview
+        run: head -n 11 results/candidates.csv
+
+      - name: Upload candidate report
+        uses: actions/upload-artifact@v4
+        with:
+          name: brand-name-candidates
+          path: results/candidates.csv
+          if-no-files-found: error
