@@ -18,11 +18,7 @@ def score_name(name: str, profile: str = "warm") -> NameCandidate:
     soft = sum(character in SOFT_CONSONANTS for character in lowered)
 
     pronunciation = 100 - abs(length - 6) * 8
-    pronunciation -= (
-        12
-        if any(a == b for a, b in zip(lowered, lowered[1:], strict=False))
-        else 0
-    )
+    pronunciation -= 12 if any(a == b for a, b in zip(lowered, lowered[1:], strict=False)) else 0
 
     memorability = 92 - abs(length - 5) * 7
     memorability += 5 if lowered[0] != lowered[-1] else -4
