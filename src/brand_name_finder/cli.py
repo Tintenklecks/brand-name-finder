@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+from typing import Annotated
 
 import typer
 
@@ -13,10 +14,22 @@ app = typer.Typer(no_args_is_help=True, help="Generate and rank brand-name candi
 
 @app.command()
 def generate(
-    count: int = typer.Option(200, min=1, help="Number of candidates to generate."),
-    top: int = typer.Option(40, min=1, help="Number of ranked candidates to export."),
-    seed: int = typer.Option(42, help="Seed for reproducible output."),
-    output: Path = typer.Option(Path("candidates.csv"), help="CSV output path."),
+    count: Annotated[
+        int,
+        typer.Option(min=1, help="Number of candidates to generate."),
+    ] = 200,
+    top: Annotated[
+        int,
+        typer.Option(min=1, help="Number of ranked candidates to export."),
+    ] = 40,
+    seed: Annotated[
+        int,
+        typer.Option(help="Seed for reproducible output."),
+    ] = 42,
+    output: Annotated[
+        Path,
+        typer.Option(help="CSV output path."),
+    ] = Path("candidates.csv"),
 ) -> None:
     """Generate names, rank them, and write the best candidates to CSV."""
     names = generate_names(count=count, seed=seed)
