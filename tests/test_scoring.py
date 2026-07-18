@@ -8,9 +8,7 @@ def test_score_is_bounded() -> None:
 
 def test_ranking_is_descending() -> None:
     ranked = rank_names(["Lunera", "Qxyzz", "Mavio"])
-    assert [item.score for item in ranked] == sorted(
-        (item.score for item in ranked), reverse=True
-    )
+    assert [item.score for item in ranked] == sorted((item.score for item in ranked), reverse=True)
 
 
 def test_common_startup_suffix_is_penalized() -> None:
