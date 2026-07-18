@@ -1,6 +1,12 @@
 name: Generate candidates
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "pyproject.toml"
+      - ".github/workflows/generate-candidates.yml"
   workflow_dispatch:
     inputs:
       count:
@@ -40,11 +46,15 @@ jobs:
         run: uv sync --all-extras
 
       - name: Generate candidates
+        env:
+          COUNT: ${{ inputs.count || '5000' }}
+          TOP: ${{ inputs.top || '100' }}
+          SEED: ${{ inputs.seed || '42' }}
         run: >-
           uv run brand-name-finder generate
-          --count ${{ inputs.count }}
-          --top ${{ inputs.top }}
-          --seed ${{ inputs.seed }}
+          --count "$COUNT"
+          --top "$TOP"
+          --seed "$SEED"
           --output results/candidates.csv
 
       - name: Show preview
