@@ -65,7 +65,7 @@ jobs:
         run: head -n 11 results/candidates.csv
 
       - name: Upload candidate report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: brand-name-candidates
           path: results/candidates.csv
